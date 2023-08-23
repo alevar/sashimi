@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="slides ui-sortable">
+        <div class="slide ui-sortable-handle ui-resizable"  style="width: 300px;">
+            <div class="slide-handle"></div>
+            <div id="graph-1"></div>
+            Slide 1<button class="delete-button">Delete</button>
+            <div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div>
+            <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div>
+        </div>
+    </div>
+    <label for="slide-width-input">Slide Width:</label>
+    <input type="number" id="slide-width-input" value="300">
+    <button id="add-slide">Add Slide</button>
+    <script>
+        const addSlideButton = document.getElementById('add-slide');
+        const slidesContainer = document.querySelector('.slides');
+        const slideWidthInput = document.getElementById('slide-width-input');
+
+        addSlideButton.addEventListener('click', () => {
+    const newSlide = document.createElement('div');
+    newSlide.classList.add('slide', 'ui-sortable-handle', 'ui-resizable');
+    newSlide.style.width = `${slideWidthInput.value}px`;
+    newSlide.innerHTML = `
+        <div class="slide-handle"></div>
+        <div class="graph-container"></div>
+        Slide ${slidesContainer.children.length + 1}<button class="delete-button">Delete</button>
+        <div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div>
+    `;
+    slidesContainer.appendChild(newSlide);
+
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            button.parentNode.remove();
+        });
+    });
+    $(newSlide).sortable({
+        axis: "y",
+        handle: ".slide-handle"
+    });
+    
+    $(newSlide).resizable({
+        handles: 's'
+    });
+
+    const data = [10, 20, 30, 40, 50];
+
+    const svg = d3.select(newSlide.querySelector('.graph-container'))
+        .append("svg")
+        .attr("width", 200)
+        .attr("height", 150);
+
+    svg.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", (d, i) => i * 40)
+        .attr("y", (d) => 150 - d)
+        .attr("width", 30)
+        .attr("height", (d) => d)
+        .attr("fill", "steelblue");
+});
+
+        slideWidthInput.addEventListener('change', () => {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide) => {
+                slide.style.width = `${slideWidthInput.value}px`;
+            });
+        });
+    </script>
+</body>
+</html>

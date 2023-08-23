@@ -1,0 +1,49 @@
+body {
+    padding: 20px;
+}
+
+.slides {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+}
+
+.slide {
+    padding: 15px;
+    background-color: #2F2F2F;
+    margin: 0 0 15px;
+    text-align: center;
+    color: #FFF;
+    border: 2px solid #444;
+}
+
+.slide-handle {
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 10px;
+    height: 100%;
+    background-color: #FFA500;
+    cursor: move;
+}
+
+.delete-button {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #FF0000;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+}
+
+.ui-selected {
+    background-color: #444;
+    color: #FFF;
+}
+
+.ui-resizable-handle.ui-resizable-s {
+    background-color: #FFF;
+    border: 2px solid #444;
+}
